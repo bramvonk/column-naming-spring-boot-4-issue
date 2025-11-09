@@ -1,0 +1,27 @@
+name: Build and Push Application Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: build-and-push
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Verify
+        run: |
+          ./mvnw clean verify
